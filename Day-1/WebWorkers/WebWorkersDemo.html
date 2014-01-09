@@ -11,20 +11,31 @@
 		document.getElementById("btnDoSomeWork").addEventListener("click",onBtnDoSomeWorkClick);
 	}
 	function onBtnDoSomeWorkClick(){
-		worker.postMessage("doWork");
+		worker.postMessage({type : "doWork"});
 	}
 	function onBtnClick(){
 		worker = new Worker("workerScript.js");
 		worker.addEventListener("message",function(msgEvt){
-			if (msgEvt.data === "completed"){
-				console.log("worker completed its task");
+			if (msgEvt.data.type === "completed"){
+				displayMessage("worker completed its task");
+			} else {
+				document.getElementById("workerProgress").value = msgEvt.data.percentCompleted;
 			}
 		})
 	}
+	function displayMessage(msg){
+		document.getElementById("divMessage").innerHTML += msg + "<br/>"
+	}
+
 	</script>
 </head>
 <body>
 	<input type="button" value="Load Worker Script" id="btnLoadWorkerScript">
 	<input type="button" value="Do Some Work" id="btnDoSomeWork">
+	<!-- <div id="divProgress"></div> -->
+	<progress id="workerProgress" min="0" max="100" value="0"></progress>
+	<div id="divMessage">
+		
+	</div>
 </body>
 </html>
