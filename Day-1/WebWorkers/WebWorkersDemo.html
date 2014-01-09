@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script>
+	window.addEventListener("DOMContentLoaded",init);
+	var worker;
+	function init(){
+		document.getElementById("btnLoadWorkerScript").addEventListener("click",onBtnClick);
+		document.getElementById("btnDoSomeWork").addEventListener("click",onBtnDoSomeWorkClick);
+	}
+	function onBtnDoSomeWorkClick(){
+		worker.postMessage("doWork");
+	}
+	function onBtnClick(){
+		worker = new Worker("workerScript.js");
+		worker.addEventListener("message",function(msgEvt){
+			if (msgEvt.data === "completed"){
+				console.log("worker completed its task");
+			}
+		})
+	}
+	</script>
+</head>
+<body>
+	<input type="button" value="Load Worker Script" id="btnLoadWorkerScript">
+	<input type="button" value="Do Some Work" id="btnDoSomeWork">
+</body>
+</html>
