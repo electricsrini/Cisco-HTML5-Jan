@@ -26,15 +26,30 @@
 
 	window.addEventListener("DOMContentLoaded",init);
 	function init(){
-		document.getElementById("btnAddTask").addEventListener("click",onBtnAddTaskClick);
-		document.getElementById("btnRemoveCompleted").addEventListener("click",onBtnRemoveCompletedClick);
 		txtTask = document.getElementById("txtTask");
 		ulTaskList= document.getElementById("ulTaskList");
+		document.getElementById("btnAddTask").addEventListener("click",onBtnAddTaskClick);
+		document.getElementById("btnRemoveCompleted").addEventListener("click",onBtnRemoveCompletedClick);
+		loadAllTasksFromStorage();
+		
+	}
+	function loadAllTasksFromStorage(){
+		var tasks = getAllTasksFromStorage()
+		for(var i=0;i<tasks.length;i++){
+			var task = tasks[i];
+			addTaskToUI(task.taskId,task.taskName);
+		}
 	}
 	function onBtnAddTaskClick(){
 		 var taskName = txtTask.value;
-		 var newTaskItem = document.createElement("li");
-		 newTaskItem.innerText = taskName;
+		 var taskId = addTaskToStorage(taskName);
+
+		 addTaskToUI(taskId,taskName);
+	}
+	function addTaskToUI(taskId, taskName){
+		var newTaskItem = document.createElement("li");
+		 newTaskItem.innerHTML = taskName;
+		 newTaskItem.setAttribute("task-id",taskId);
 		 newTaskItem.addEventListener("click",onTaskItemClick);
 		 ulTaskList.appendChild(newTaskItem);
 	}
@@ -48,10 +63,34 @@
 	function onBtnRemoveCompletedClick(){
 		for(var i = ulTaskList.children.length-1;i>=0;i--){
 			var taskItem = ulTaskList.children[i];
-			if (taskItem.classList.contains("completed"))
+			if (taskItem.classList.contains("completed")){
+				var taskId = taskItem.getAttribute("task-id");
+				removeTaskFromStorage(taskId);
 				taskItem.remove();
+			}
 		}
 	}
+	function addTaskToStorage(taskName){
+		var taskId = new Date().getTime().toString();
+		window.localStorage.setItem(taskId,taskName);
+		return taskId;
+	}
+
+	function removeTaskFromStorage(taskId){
+		window.localStorage.removeItem(taskId);
+	}
+
+	function getAllTasksFromStorage(){
+		var tasks = [];
+		for(var i=0;i<window.localStorage.length;i++){
+			var id = window.localStorage.key(i);
+			var name = window.localStorage.getItem(id);
+			var task = { taskId : id, taskName : name};
+			tasks.push(task);
+		}
+		return tasks;
+	}
+
 	</script>
 </head>
 <body>
@@ -66,3 +105,18 @@
 		<div id="divMessage"></div>	
 </body>
 </html>
+<!--
+window.localStorage
+	key/value store
+	key & value should be string
+
+	void setItem(key,value)
+	value getItem(key)
+	void removeItem(key)
+	void clear()
+	key key(index)
+	length
+
+	window.storage (event)
+
+-->
