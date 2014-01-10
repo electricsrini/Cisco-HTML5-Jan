@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" manifest="app.manifest" >
+<head>
+	<meta charset="UTF-8">
+	<title>Task Manager</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style-online.css">
+	<script src="TaskManager-onlineStorage.js"></script>
+	<script src="TaskManager.js"></script>
+</head>
+<body>
+	<h1>Task Manager Ver-1.2</h1>
+		<span>Task :</span>
+		<input type="text" name="" id="txtTask">
+		<input type="button" value="Add Task" id="btnAddTask">
+		<input type="button" value="Remove Completed" id="btnRemoveCompleted">
+		<ul id="ulTaskList">
+			
+		</ul>
+		<div id="divMessage"></div>	
+		<div id="divAppUpgradeMsg">
+			A new version of the application is available.  Do you want to use it? <input type="button" value="  Yes  " id="btnYes"><input type="button" value="  No  " id="btnNo">
+		</div>
+		<footer>Application in offline mode</footer>
+</body>
+</html>
+<!--
+window.localStorage
+	key/value store
+	key & value should be string
+
+	void setItem(key,value)
+	value getItem(key)
+	void removeItem(key)
+	void clear()
+	key key(index)
+	length
+
+	window.storage (event)
+
+-->

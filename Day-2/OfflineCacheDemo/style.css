@@ -1,0 +1,21 @@
+.completed{
+	color : red;
+	text-decoration: line-through;
+	font-style: italic;
+}
+li{
+	cursor: pointer;
+}
+footer{
+	position : absolute;
+	bottom : 0px;
+	border: 1px solid black;
+	background-color: #efefef;
+	padding : 5px;
+	right : 0px;
+	display : none;
+}
+
+#divAppUpgradeMsg{
+	display : none;
+}
